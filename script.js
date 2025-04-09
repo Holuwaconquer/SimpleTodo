@@ -5,16 +5,17 @@ let todoTable = document.getElementById('todoTable')
 let todoArray=[]
 addTodo.addEventListener('click', (index)=>{
     event.preventDefault()
-    todoArray.push(userInput.value)
+    if(userInput.value != ""){
+        todoArray.push(userInput.value)
+        userInput.value=""
+    }else{
+        alert('input is empty')
+    }
     displayTodo()
-    // userInput.value=""
-    console.log(todoArray);
-    
 })
 let tbody = document.createElement('tbody')
 const displayTodo = ()=>{
     tbody.innerHTML = ""
-    if(userInput.value != ""){
         todoArray.map((each, index)=>{
             tbody.innerHTML += `
                 <tr>
@@ -30,13 +31,9 @@ const displayTodo = ()=>{
         `
         todoTable.appendChild(tbody)
         })
-    }else{
-        console.log("nothing in array");
-    }
 }
 const deleteTodo = (index) =>{
     todoArray.splice(index, 1)
-    tbody.innerHTML=""
     displayTodo()
 }
 const editTodo = (index)=> {
@@ -47,5 +44,13 @@ const editTodo = (index)=> {
 const finishTodo = (index) =>{
     let td = tbody.getElementsByTagName('td')
     td[1].innerHTML = `<td>Completed</td>`
-    
 }
+document.getElementById('deleteAll').addEventListener('click', (index)=>{
+    event.preventDefault()
+    if(todoArray.length<1){
+        alert('no item in todo')
+    }else{
+        todoArray.splice(index, todoArray.length)
+        displayTodo()
+    }
+})
